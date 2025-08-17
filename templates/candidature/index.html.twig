@@ -1,69 +1,93 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div style="text-align:center;">
-        <a href="{{ path('candidature_new') }}" class="btn-add">➕ Nouvelle candidature</a>
+<!-- Header avec menu -->
+<header style="background-color:#2C3E50; color:white; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
+    <div class="logo" style="font-size:1.5em; font-weight:bold;">Mes Candidatures</div>
+    
+    <nav>
+        <ul style="list-style:none; display:flex; margin:0; padding:0; position:relative;">
+            <li style="position:relative; margin-left:20px; cursor:pointer;">
+                Menu
+                <ul class="dropdown" style="display:none; position:absolute; top:100%; right:0; background:white; color:black; padding:10px; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.2); list-style:none; min-width:150px;">
+                    <li style="padding:5px 10px;"><a href="{{ path('app_home') }}" style="text-decoration:none; color:black;">Accueil</a></li>
+                    <li style="padding:5px 10px;"><a href="{{ path('candidature_new') }}" style="text-decoration:none; color:black;">Ajouter Candidature</a></li>
+                    <li style="padding:5px 10px;"><a href="#" style="text-decoration:none; color:black;">À propos</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Bouton Ajouter -->
+<div style="text-align:center; margin:20px;">
+    <a href="{{ path('candidature_new') }}" class="btn-add" 
+       style="background-color:#27AE60; color:white; padding:10px 20px; border-radius:5px; text-decoration:none; font-weight:bold;">
+        ➕ Nouvelle candidature
+    </a>
+</div>
+
+<!-- Kanban -->
+<div class="kanban" style="display:flex; gap:20px; justify-content:center; padding:20px;">
+    <!-- Colonne Candidature -->
+    <div class="column" id="col-candidature" style="background-color:#ECF0F1; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+        <h2 style="text-align:center; margin-bottom:15px;">Candidature envoyée</h2>
+        {% for candidature in candidatures %}
+            {% if candidature.statut == 'Candidature' %}
+                <div class="card" draggable="true" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
+                    <strong>{{ candidature.nom }}</strong><br>
+                    {% if candidature.lien %}
+                        <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 
-    <div class="kanban">
-        <!-- Colonne Candidature -->
-        <div class="column">
-            <h2>Candidature envoyée</h2>
-            {% set has_candidature = false %}
-            {% for candidature in candidatures %}
-                {% if candidature.statut == 'Candidature' %}
-                    {% set has_candidature = true %}
-                    <div class="card">
-                        <strong>{{ candidature.nom }}</strong><br>
-                        {% if candidature.lien %}
-                            <a href="{{ candidature.lien }}" target="_blank">Voir l'offre</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            {% if not has_candidature %}
-                <p>Aucune candidature.</p>
-            {% endif %}
-        </div>
-
-        <!-- Colonne Relance -->
-        <div class="column">
-            <h2>Relance</h2>
-            {% set has_relance = false %}
-            {% for candidature in candidatures %}
-                {% if candidature.statut == 'relance' %}
-                    {% set has_relance = true %}
-                    <div class="card">
-                        <strong>{{ candidature.nom }}</strong><br>
-                        {% if candidature.lien %}
-                            <a href="{{ candidature.lien }}" target="_blank">Voir l'offre</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            {% if not has_relance %}
-                <p>Aucune relance.</p>
-            {% endif %}
-        </div>
-
-        <!-- Colonne Entretien -->
-        <div class="column">
-            <h2>Entretien</h2>
-            {% set has_entretien = false %}
-            {% for candidature in candidatures %}
-                {% if candidature.statut == 'entretien' %}
-                    {% set has_entretien = true %}
-                    <div class="card">
-                        <strong>{{ candidature.nom }}</strong><br>
-                        {% if candidature.lien %}
-                            <a href="{{ candidature.lien }}" target="_blank">Voir l'offre</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            {% if not has_entretien %}
-                <p>Aucun entretien prévu.</p>
-            {% endif %}
-        </div>
+    <!-- Colonne Relance -->
+    <div class="column" id="col-relance" style="background-color:#FDEBD0; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+        <h2 style="text-align:center; margin-bottom:15px;">Relance</h2>
     </div>
+
+    <!-- Colonne Entretien -->
+    <div class="column" id="col-entretien" style="background-color:#D6EAF8; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+        <h2 style="text-align:center; margin-bottom:15px;">Entretien</h2>
+    </div>
+</div>
+
+<!-- Drag & Drop Script -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Drag & Drop
+    const cards = document.querySelectorAll('.card');
+    const columns = document.querySelectorAll('.column');
+    let draggedCard = null;
+
+    cards.forEach(card => {
+        card.addEventListener('dragstart', e => {
+            draggedCard = card;
+            setTimeout(() => card.style.display = 'none', 0);
+        });
+        card.addEventListener('dragend', e => {
+            setTimeout(() => {
+                draggedCard.style.display = 'block';
+                draggedCard = null;
+            }, 0);
+        });
+    });
+
+    columns.forEach(column => {
+        column.addEventListener('dragover', e => e.preventDefault());
+        column.addEventListener('drop', e => {
+            if (draggedCard) column.appendChild(draggedCard);
+        });
+    });
+
+    // Dropdown Menu
+    const menu = document.querySelector('nav ul li');
+    const dropdown = menu.querySelector('.dropdown');
+    menu.addEventListener('mouseenter', () => dropdown.style.display = 'block');
+    menu.addEventListener('mouseleave', () => dropdown.style.display = 'none');
+});
+</script>
 {% endblock %}

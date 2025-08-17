@@ -1,10 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Nouvelle Candidature</h1>
+<div style="display:flex; justify-content:center; align-items:center; min-height:80vh; background-color:#f5f6fa;">
+    <div style="background:white; padding:30px 40px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); width:400px;">
+        <h1 style="text-align:center; color:#2C3E50; margin-bottom:20px;">Nouvelle Candidature</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn-add">Enregistrer</button>
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+
+        <div style="margin-bottom:15px;">
+            {{ form_label(form.nom, 'Nom de l\'entreprise', {'label_attr': {'style': 'font-weight:bold; color:#34495E;'}}) }}
+            {{ form_widget(form.nom, {'attr': {'style':'width:100%; padding:10px; border-radius:5px; border:1px solid #ccc;'}}) }}
+            {{ form_errors(form.nom) }}
+        </div>
+
+        <div style="margin-bottom:15px;">
+            {{ form_label(form.lien, 'Lien de l\'offre', {'label_attr': {'style': 'font-weight:bold; color:#34495E;'}}) }}
+            {{ form_widget(form.lien, {'attr': {'style':'width:100%; padding:10px; border-radius:5px; border:1px solid #ccc;'}}) }}
+            {{ form_errors(form.lien) }}
+        </div>
+
+        {# Plus besoin du statut, il sera automatique #}
+
+        <div style="text-align:center; margin-top:20px;">
+            <button type="submit" style="background-color:#27AE60; color:white; padding:10px 20px; border:none; border-radius:5px; font-weight:bold; cursor:pointer; transition:0.3s;">
+                Ajouter
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+
+        <div style="text-align:center; margin-top:15px;">
+            <a href="{{ path('app_home') }}" style="color:#2980B9; text-decoration:none;">⬅ Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
