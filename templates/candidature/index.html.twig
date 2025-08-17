@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div style="text-align:center;">
+        <a href="{{ path('candidature_new') }}" class="btn-add">➕ Nouvelle candidature</a>
+    </div>
+
+    <div class="kanban">
+        <!-- Colonne Candidature -->
+        <div class="column">
+            <h2>Candidature envoyée</h2>
+            {% set has_candidature = false %}
+            {% for candidature in candidatures %}
+                {% if candidature.statut == 'Candidature' %}
+                    {% set has_candidature = true %}
+                    <div class="card">
+                        <strong>{{ candidature.nom }}</strong><br>
+                        {% if candidature.lien %}
+                            <a href="{{ candidature.lien }}" target="_blank">Voir l'offre</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if not has_candidature %}
+                <p>Aucune candidature.</p>
+            {% endif %}
+        </div>
+
+        <!-- Colonne Relance -->
+        <div class="column">
+            <h2>Relance</h2>
+            {% set has_relance = false %}
+            {% for candidature in candidatures %}
+                {% if candidature.statut == 'relance' %}
+                    {% set has_relance = true %}
+                    <div class="card">
+                        <strong>{{ candidature.nom }}</strong><br>
+                        {% if candidature.lien %}
+                            <a href="{{ candidature.lien }}" target="_blank">Voir l'offre</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if not has_relance %}
+                <p>Aucune relance.</p>
+            {% endif %}
+        </div>
+
+        <!-- Colonne Entretien -->
+        <div class="column">
+            <h2>Entretien</h2>
+            {% set has_entretien = false %}
+            {% for candidature in candidatures %}
+                {% if candidature.statut == 'entretien' %}
+                    {% set has_entretien = true %}
+                    <div class="card">
+                        <strong>{{ candidature.nom }}</strong><br>
+                        {% if candidature.lien %}
+                            <a href="{{ candidature.lien }}" target="_blank">Voir l'offre</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if not has_entretien %}
+                <p>Aucun entretien prévu.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

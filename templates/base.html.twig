@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Suivi des candidatures{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f4f6f8; color:#333; }
+        header { background:#2d3748; color:white; padding:1rem; text-align:center; }
+        h1 { margin:0; }
+        .kanban { display:flex; justify-content:space-around; padding:2rem; gap:20px; }
+        .column { background:white; border-radius:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); flex:1; padding:1rem; min-height:300px; }
+        .column h2 { margin-top:0; font-size:1.2rem; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem; }
+        .card { background:#edf2f7; margin:0.5rem 0; padding:0.75rem; border-radius:6px; transition: transform 0.2s; }
+        .card:hover { transform:scale(1.02); background:#e6fffa; }
+        a { color:#3182ce; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .btn-add { display:inline-block; margin:1rem 0; padding:0.5rem 1rem; background:#48bb78; color:white; border-radius:6px; text-decoration:none; font-weight:bold; }
+        .btn-add:hover { background:#38a169; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Suivi des candidatures</h1>
+    </header>
+
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+</body>
+</html>
