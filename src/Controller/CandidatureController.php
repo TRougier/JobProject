@@ -42,4 +42,11 @@ class CandidatureController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/offres', name: 'app_offres')]
+    public function offres(): Response
+    {
+        return $this->render('offres/index.html.twig');
+    }
+
 }

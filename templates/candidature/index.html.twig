@@ -2,21 +2,10 @@
 
 {% block body %}
 <!-- Header avec menu -->
-<header style="background-color:#2C3E50; color:white; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
-    <div class="logo" style="font-size:1.5em; font-weight:bold;">Mes Candidatures</div>
+<header>
+<h1>Mes candidatures</h1>
     
-    <nav>
-        <ul style="list-style:none; display:flex; margin:0; padding:0; position:relative;">
-            <li style="position:relative; margin-left:20px; cursor:pointer;">
-                Menu
-                <ul class="dropdown" style="display:none; position:absolute; top:100%; right:0; background:white; color:black; padding:10px; border-radius:5px; box-shadow:0 2px 5px rgba(0,0,0,0.2); list-style:none; min-width:150px;">
-                    <li style="padding:5px 10px;"><a href="{{ path('app_home') }}" style="text-decoration:none; color:black;">Accueil</a></li>
-                    <li style="padding:5px 10px;"><a href="{{ path('candidature_new') }}" style="text-decoration:none; color:black;">Ajouter Candidature</a></li>
-                    <li style="padding:5px 10px;"><a href="#" style="text-decoration:none; color:black;">À propos</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
+   
 </header>
 
 <!-- Bouton Ajouter -->
