@@ -2,107 +2,270 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Mon Application{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion de Candidatures{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* Global Styles */
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        /* Barre de navigation */
+        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #2c3e50;
+            background-color: #1e2a3a;
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 20px auto 0 auto;
+            position: relative;
         }
-
         .navbar h1 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
         }
-
-        /* Icône menu burger */
-        .menu-toggle {
+        .navbar .menu-toggle {
             font-size: 1.8rem;
             cursor: pointer;
         }
+        .navbar .user-links a {
+            margin-left: 15px;
+            font-weight: 500;
+            color: #f1f1f1;
+            transition: color 0.3s;
+        }
+        .navbar .user-links a:hover {
+            color: #1abc9c;
+        }
 
-        /* Menu latéral */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
             left: -250px;
             width: 250px;
             height: 100%;
-            background: #34495e;
+            background-color: #34495e;
             color: white;
             padding-top: 60px;
             transition: 0.3s;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 4px 0 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
-
         .sidebar a {
             display: block;
             padding: 15px;
             text-decoration: none;
             color: white;
             font-size: 1.1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
         }
-
         .sidebar a:hover {
-            background: #1abc9c;
+            background-color: #1abc9c;
         }
-
         .sidebar.active {
             left: 0;
         }
+        .sidebar-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1200;
+        }
 
-        /* Contenu principal */
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: white;
+            padding: 60px 20px 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 40px auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            line-height: 1.5;
+        }
+        .hero .button {
+            background-color: white;
+            color: #16a085;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .hero .button:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Content */
         .content {
-            padding: 20px;
+            margin-left: 0;
+            transition: margin-left 0.3s;
+        }
+        .content.active {
+            margin-left: 250px;
+        }
+
+        /* Sections d’info */
+        .features {
+            display:flex;
+            justify-content:center;
+            gap:40px;
+            flex-wrap:wrap;
+            margin-top:30px;
+            margin-bottom:40px;
+        }
+        .feature-card {
+            text-align:center;
+            width:250px;
+        }
+        .feature-card i {
+            font-size:2rem;
+            color:#1abc9c;
+            margin-bottom:10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #2c3e50;
+            color: white;
+            font-size: 0.9rem;
+            width: 100%;
+            position: relative;
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
+{% set current_route = app.request.attributes.get('_route') %}
+
+{% if current_route not in ['app_login', 'app_register'] %}
     <!-- Navbar -->
-<div class="navbar">
-    <h1>Ma Gestion d'Alternance</h1>
+    <div class="navbar">
+        <span class="menu-toggle"><i class="fas fa-bars"></i></span>
+        <h1>Gestion des candidatures</h1>
+        <div class="user-links">
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
+            {% endif %}
+            {% if not app.user %}
+                <a href="{{ path('app_login') }}">Connexion</a>
+                <a href="{{ path('app_register') }}">Inscription</a>
+            {% endif %}
+        </div>
 
-    <div class="user-links">
-        {% if app.user %}
-            <a href="{{ path('app_logout') }}" style="margin-left: 10px; color: white;">🚪 Déconnexion</a>
-        {% else %}
-            <a href="{{ path('app_login') }}" style="margin-left: 10px; color: white;">🔑 Connexion</a>
-            <a href="{{ path('app_register') }}" style="margin-left: 10px; color: white;">📝 Inscription</a>
-        {% endif %}
     </div>
-
-    <span class="menu-toggle"><i class="fas fa-bars"></i></span>
-</div>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-    <a href="{{ path('app_home') }}">🏠 Menu principal</a>
-    <a href="{{ path('app_offres') }}">💼 Offres d'emploi</a>
-
-</div>
-
-
-    <!-- Contenu -->
-    <div class="content">
-        {% block body %}{% endblock %}
+        <span class="sidebar-toggle"><i class="fas fa-bars"></i></span>
+        <a href="{{ path('app_home') }}">Tableau de bord</a>
+        <a href="{{ path('app_offres') }}">Offres d'emploi</a>
     </div>
 
-    <script>
-        const toggle = document.querySelector(".menu-toggle");
-        const sidebar = document.getElementById("sidebar");
+   {% if app.user %}
+    <!-- Hero -->
+    <section class="hero" style="background: linear-gradient(135deg, #1abc9c, #16a085); color: white; padding: 60px 20px 40px 20px; text-align: center; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 15px;">Gestion des candidatures</h1>
+        <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto 25px; line-height: 1.5;">
+            Organisez, suivez et optimisez vos candidatures, relances et entretiens en toute simplicité.
+        </p>
+        <a href="{{ path('candidature_new') }}" style="background-color: white; color: #16a085; font-weight: 600; padding: 12px 30px; border-radius: 50px; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
+            Ajouter une candidature
+        </a>
+    </section>
 
-        toggle.addEventListener("click", () => {
+    <!-- Features -->
+    <section class="features" style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px;">
+        <div class="feature-box" style="text-align:center; width:250px;">
+            <i class="fas fa-list-check" style="font-size:2rem; color:#1abc9c; margin-bottom:10px;"></i>
+            <h3>Suivi facile</h3>
+            <p>Organisez toutes vos candidatures en un seul tableau simple et intuitif.</p>
+        </div>
+        <div class="feature-box" style="text-align:center; width:250px;">
+            <i class="fas fa-bell" style="font-size:2rem; color:#1abc9c; margin-bottom:10px;"></i>
+            <h3>Alertes et relances</h3>
+            <p>Recevez des rappels pour vos relances et entretiens programmés.</p>
+        </div>
+        <div class="feature-box" style="text-align:center; width:250px;">
+            <i class="fas fa-chart-line" style="font-size:2rem; color:#1abc9c; margin-bottom:10px;"></i>
+            <h3>Statistiques claires</h3>
+            <p>Visualisez vos progrès et vos opportunités de manière graphique.</p>
+        </div>
+    </section>
+{% endif %}
+
+
+{% endif %}
+
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+
+{% if current_route not in ['app_login', 'app_register'] %}
+<footer>
+    <p>&copy; 2025 Gestion d'Alternances. Tous droits réservés.</p>
+    <div>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+</footer>
+{% endif %}
+
+<script>
+    const toggleMain = document.querySelector(".menu-toggle");
+    const toggleSidebar = document.querySelector(".sidebar-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const content = document.querySelector(".content");
+
+    if(toggleMain && toggleSidebar) {
+        function toggleMenu() {
             sidebar.classList.toggle("active");
-        });
-    </script>
+            if(content) content.classList.toggle("active");
+        }
+        toggleMain.addEventListener("click", toggleMenu);
+        toggleSidebar.addEventListener("click", toggleMenu);
+    }
+</script>
 </body>
 </html>
