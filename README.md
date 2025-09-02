@@ -40,28 +40,6 @@ JOOBLE_API_KEY=ta_cle_api
 
 ---
 
-## Installation du projet
-
-Pour installer le projet comme un nouvel utilisateur, suis ces étapes :
-
-1. **Cloner le dépôt**
-  git clone https://github.com/TRougier/JobProject.git
-
-  cd JobProject
-  
-**Configurer les variables d’environnement**
--  Renomme le fichier .env.example en .env :  
--  Editer le fichier .env pour renseigner tes informations locales  
-
-  ```composer install  
-  php bin/console doctrine:database:create  
-  php bin/console doctrine:migrations:migrate  
-  symfony server:start```
-
-Le projet sera alors accessible à l’adresse : http://127.0.0.1:8000
-
-
-
 ### 📝 Utilisation
 
 - **Kanban** : glisse une candidature vers une autre colonne pour changer son statut.
@@ -78,3 +56,22 @@ Le projet sera alors accessible à l’adresse : http://127.0.0.1:8000
 - **Base de données** : MySQL
 - **Front-end** : HTML, CSS, JavaScript
 - **API** : Jooble
+
+## Installation du projet
+
+Pour installer le projet comme un nouvel utilisateur, suis ces étapes :
+
+1. **Cloner le dépôt**
+  git clone https://github.com/TRougier/JobProject.git
+
+  cd JobProject
+  
+**Configurer les variables d’environnement**
+-  Renomme le fichier .env.example en .env :  
+-  Editer le fichier .env pour renseigner tes informations locales  
+
+  ```composer install  
+  php bin/console doctrine:database:create  
+  php bin/console doctrine:migrations:migrate  
+  symfony server:start
+
