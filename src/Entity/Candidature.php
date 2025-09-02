@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CandidatureRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CandidatureRepository::class)]
@@ -24,6 +25,9 @@ class Candidature
 
     #[ORM\ManyToOne(inversedBy: 'candidatures')]
     private ?User $user = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()
     {
@@ -79,6 +83,18 @@ class Candidature
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
