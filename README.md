@@ -40,31 +40,6 @@ JOOBLE_API_KEY=ta_cle_api
 
 ---
 
-### ⚙️ Installation
-
-1. **Cloner le projet**
-```bash
-git clone https://github.com/TRougier/SearchJob.git
-cd SearchJob
-
-
-**Installer les dépendances
-
-composer install
-
-**Créer la BDD
-php bin/console doctrine:database:create
-
-**Exécuter les migrations
-php bin/console doctrine:migrations:migrate
-
-
-**Lancer le serveur :
-symfony server:start
-
-Le projet est accessible à l’adresse : http://127.0.0.1:8000
-
-
 Utilisation
 Kanban : glisse une candidature vers une autre colonne pour changer son statut.
 Ajouter candidature : clique sur “Nouvelle candidature” et remplis le formulaire.
