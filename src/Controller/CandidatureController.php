@@ -27,8 +27,23 @@ class CandidatureController extends AbstractController
         // Récupère uniquement les candidatures de l'utilisateur connecté
         $candidatures = $em->getRepository(Candidature::class)->findBy(['user' => $user]);
 
-        return $this->render('candidature/index.html.twig', [
+        // Compter les candidatures selon le statut
+        $countCandidature = 0;
+        $countRelance = 0;
+        $countEntretien = 0;
+
+        foreach ($candidatures as $c) {
+            if ($c->getStatut() === 'Candidature') $countCandidature++;
+            if ($c->getStatut() === 'Relance') $countRelance++;
+            if ($c->getStatut() === 'Entretien') $countEntretien++;
+        }
+
+
+            return $this->render('candidature/index.html.twig', [
             'candidatures' => $candidatures,
+            'countCandidature' => $countCandidature,
+            'countRelance' => $countRelance,
+            'countEntretien' => $countEntretien,
         ]);
     }
 
