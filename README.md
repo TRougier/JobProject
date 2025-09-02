@@ -52,7 +52,7 @@ JOOBLE_API_KEY=ta_cle_api
 
 ### 🛠️ Technologies
 
-- **Back-end** : PHP, Symfony 6
+- **Back-end** : PHP 8.2, Symfony 6.1
 - **Base de données** : MySQL
 - **Front-end** : HTML, CSS, JavaScript
 - **API** : Jooble
