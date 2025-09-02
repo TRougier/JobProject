@@ -75,9 +75,18 @@
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <a href="{{ path('app_home') }}">🏠 Menu principal</a>
-        <a href="{{ path('app_offres') }}">💼 Offres d'emploi</a>
-    </div>
+    <a href="{{ path('app_home') }}">🏠 Menu principal</a>
+    <a href="{{ path('app_offres') }}">💼 Offres d'emploi</a>
+
+    {% if app.user %}
+        <p>👤 Bonjour {{ app.user.email }}</p>
+        <a href="{{ path('app_logout') }}">🚪 Déconnexion</a>
+    {% else %}
+        <a href="{{ path('app_login') }}">🔑 Connexion</a>
+        <a href="{{ path('app_register') }}">📝 Inscription</a>
+    {% endif %}
+</div>
+
 
     <!-- Contenu -->
     <div class="content">
