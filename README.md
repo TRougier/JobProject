@@ -29,7 +29,8 @@
 1. Crée un compte Jooble.  
 2. Génére une clé API personnelle.  
 3. Remplace la clé dans `.env` :  
-```env
+
+env:
 JOOBLE_API_KEY=ta_cle_api
 
 
