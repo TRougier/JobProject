@@ -32,7 +32,7 @@ class JobController extends AbstractController
             $jobs = []; // en cas d'erreur, tableau vide
         } else {
             $jobs = json_decode($response, true)['jobs'] ?? [];
-            $jobs = array_slice($jobs, 0, 3);
+            $jobs = array_slice($jobs, 0, 1);
         }
 
         curl_close($ch);

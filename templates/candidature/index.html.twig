@@ -2,8 +2,41 @@
 
 {% block body %}
 <header>
+<!-- Hero -->
+    <section class="hero" style="background: linear-gradient(135deg, #1abc9c, #16a085); color: white; padding: 60px 20px 40px 20px; text-align: center; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h1 style="font-size: 2.2rem; font-weight: 700; margin-bottom: 15px;">Gestion des candidatures</h1>
+        <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto 25px; line-height: 1.5;">
+            Organisez, suivez et optimisez vos candidatures, relances et entretiens en toute simplicité.
+        </p>
+        <a href="{{ path('candidature_new') }}" style="background-color: white; color: #16a085; font-weight: 600; padding: 12px 30px; border-radius: 50px; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background-color 0.3s;">
+            Ajouter une candidature
+        </a>
+    </section>
+
+     <!-- Features -->
+    <section class="features" style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px;">
+        <div class="feature-box" style="text-align:center; width:250px;">
+            <i class="fas fa-list-check" style="font-size:2rem; color:#1abc9c; margin-bottom:10px;"></i>
+            <h3>Suivi facile</h3>
+            <p>Organisez toutes vos candidatures en un seul tableau simple et intuitif.</p>
+        </div>
+        <div class="feature-box" style="text-align:center; width:250px;">
+            <i class="fas fa-bell" style="font-size:2rem; color:#1abc9c; margin-bottom:10px;"></i>
+            <h3>Alertes et relances</h3>
+            <p>Recevez des rappels pour vos relances et entretiens programmés.</p>
+        </div>
+        <div class="feature-box" style="text-align:center; width:250px;">
+            <i class="fas fa-chart-line" style="font-size:2rem; color:#1abc9c; margin-bottom:10px;"></i>
+            <h3>Statistiques claires</h3>
+            <p>Visualisez vos progrès et vos opportunités de manière graphique.</p>
+        </div>
+    </section>
+
     <h1>Mes candidatures</h1>
+    
 </header>
+
+
 
 <!-- Bouton Ajouter -->
 <div style="text-align:center; margin:20px;">
@@ -26,6 +59,13 @@
                     {% if candidature.lien %}
                         <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
                     {% endif %}
+
+                    <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+                        <button type="submit" style="background:#E74C3C; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
+                            Supprimer
+                        </button>
+                    </form>
                 </div>
             {% endif %}
         {% endfor %}
@@ -41,6 +81,12 @@
                     {% if candidature.lien %}
                         <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
                     {% endif %}
+                    <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+                        <button type="submit" style="background:#E74C3C; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
+                            Supprimer
+                        </button>
+                    </form>
                 </div>
             {% endif %}
         {% endfor %}
@@ -56,7 +102,14 @@
                     {% if candidature.lien %}
                         <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
                     {% endif %}
+                    <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+        <button type="submit" style="background:#E74C3C; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
+            Supprimer
+        </button>
+    </form>
                 </div>
+                
             {% endif %}
         {% endfor %}
     </div>
