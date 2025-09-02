@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CandidatureRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Candidature
 {
     #[ORM\Id]
@@ -32,7 +34,17 @@ class Candidature
     public function __construct()
     {
         $this->statut = 'Candidature';
+        $this->updatedAt = new \DateTime(); // <- initialise la date dès la création
+
     }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTimestamp(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+    
 
     public function getId(): ?int
     {
