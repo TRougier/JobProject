@@ -63,7 +63,6 @@ Pour installer le projet comme un nouvel utilisateur, suis ces étapes :
 
 1. **Cloner le dépôt**
   git clone https://github.com/TRougier/JobProject.git
-  ```bash  cd JobProject``
   
 **Configurer les variables d’environnement**
 -  Renomme le fichier .env.example en .env :  
