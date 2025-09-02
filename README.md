@@ -63,14 +63,13 @@ Pour installer le projet comme un nouvel utilisateur, suis ces étapes :
 
 1. **Cloner le dépôt**
   git clone https://github.com/TRougier/JobProject.git
-
-  cd JobProject
+  ```bash  cd JobProject``
   
 **Configurer les variables d’environnement**
 -  Renomme le fichier .env.example en .env :  
 -  Editer le fichier .env pour renseigner tes informations locales  
-
-  ```composer install  
+  ```bash
+  composer install  
   php bin/console doctrine:database:create  
   php bin/console doctrine:migrations:migrate  
   symfony server:start
