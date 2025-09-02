@@ -105,8 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        
     }
 
     /**
@@ -130,7 +129,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCandidature(Candidature $candidature): static
     {
         if ($this->candidatures->removeElement($candidature)) {
-            // set the owning side to null (unless already changed)
             if ($candidature->getUser() === $this) {
                 $candidature->setUser(null);
             }
