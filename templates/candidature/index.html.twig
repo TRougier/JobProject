@@ -49,27 +49,33 @@
 <!-- Kanban -->
 <div class="kanban" style="display:flex; gap:20px; justify-content:center; padding:20px;">
 
-    <!-- Colonne Candidature -->
-    <div class="column" id="col-candidature" style="background-color:#ECF0F1; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
-        <h2 style="text-align:center; margin-bottom:15px;">Candidature envoyée</h2>
-        {% for candidature in candidatures %}
-            {% if candidature.statut == 'Candidature' %}
-                <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
-                    <strong>{{ candidature.nom }}</strong><br>
-                    {% if candidature.lien %}
-                        <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
-                    {% endif %}
+<!-- Colonne Candidature -->
+<div class="column" id="col-candidature" style="background-color:#ECF0F1; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+    <h2 style="text-align:center; margin-bottom:15px;">Candidature envoyée</h2>
+    {% for candidature in candidatures %}
+        {% if candidature.statut == 'Candidature' %}
+            <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
+                <strong style="font-size:1.1rem;">{{ candidature.nom }}</strong><br>
 
-                    <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
-                        <button type="submit" style="background:green; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
-                            Supprimer
-                        </button>
-                    </form>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+                {% if candidature.lien %}
+                    <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
+                {% endif %}
+
+                <p style="font-size:0.8rem; color:#555; margin-top:5px;">
+                    Dernière mise à jour : {{ candidature.updatedAt ? candidature.updatedAt|date('d/m/Y H:i') : 'N/A' }}
+                </p>
+
+                <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+                    <button type="submit" style="background:green; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
+                        Supprimer
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
 
     <!-- Colonne Relance -->
     <div class="column" id="col-relance" style="background-color:#FDEBD0; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
@@ -77,10 +83,16 @@
         {% for candidature in candidatures %}
             {% if candidature.statut == 'Relance' %}
                 <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
-                    <strong>{{ candidature.nom }}</strong><br>
+                    <strong style="font-size:1.1rem;">{{ candidature.nom }}</strong><br>
+                    
                     {% if candidature.lien %}
                         <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
                     {% endif %}
+                    
+                    <p style="font-size:0.8rem; color:#555; margin-top:5px;">
+                        Dernière mise à jour : {{ candidature.updatedAt ? candidature.updatedAt|date('d/m/Y H:i') : 'N/A' }}
+                    </p>
+
                     <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
                         <button type="submit" style="background:green; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
@@ -92,27 +104,34 @@
         {% endfor %}
     </div>
 
+
     <!-- Colonne Entretien -->
-    <div class="column" id="col-entretien" style="background-color:#D6EAF8; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
-        <h2 style="text-align:center; margin-bottom:15px;">Entretien</h2>
-        {% for candidature in candidatures %}
-            {% if candidature.statut == 'Entretien' %}
-                <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
-                    <strong>{{ candidature.nom }}</strong><br>
-                    {% if candidature.lien %}
-                        <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
-                    {% endif %}
-                    <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
-        <button type="submit" style="background:green; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
-            Supprimer
-        </button>
-    </form>
-                </div>
-                
-            {% endif %}
-        {% endfor %}
-    </div>
+<div class="column" id="col-entretien" style="background-color:#D6EAF8; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+    <h2 style="text-align:center; margin-bottom:15px;">Entretien</h2>
+    {% for candidature in candidatures %}
+        {% if candidature.statut == 'Entretien' %}
+            <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
+                <strong style="font-size:1.1rem;">{{ candidature.nom }}</strong><br>
+
+                {% if candidature.lien %}
+                    <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
+                {% endif %}
+
+                <p style="font-size:0.8rem; color:#555; margin-top:5px;">
+                    Dernière mise à jour : {{ candidature.updatedAt ? candidature.updatedAt|date('d/m/Y H:i') : 'N/A' }}
+                </p>
+
+                <form action="{{ path('candidature_delete', {'id': candidature.id}) }}" method="post" style="display:inline-block; margin-top:5px;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette candidature ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+                    <button type="submit" style="background:green; color:white; border:none; border-radius:3px; padding:3px 6px; cursor:pointer; font-size:0.85rem;">
+                        Supprimer
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
 
 </div>
 

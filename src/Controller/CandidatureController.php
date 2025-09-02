@@ -114,6 +114,8 @@ class CandidatureController extends AbstractController
         }
 
         $candidature->setStatut($newStatut);
+        $candidature->setUpdatedAt(new \DateTime()); 
+
         $em->flush();
 
         return new JsonResponse(['success' => true]);
