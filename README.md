@@ -40,15 +40,19 @@ JOOBLE_API_KEY=ta_cle_api
 
 ---
 
-Utilisation
-Kanban : glisse une candidature vers une autre colonne pour changer son statut.
-Ajouter candidature : clique sur “Nouvelle candidature” et remplis le formulaire.
-Supprimer candidature : clique sur le bouton “Supprimer” dans chaque carte.
-Statistiques : les nombres se mettent à jour au rechargement de la page.
-Offres d’emploi : consulte les offres récupérées via l’API Jooble.
+### 📝 Utilisation
 
+- **Kanban** : glisse une candidature vers une autre colonne pour changer son statut.
+- **Ajouter une candidature** : clique sur "Nouvelle candidature" et remplis le formulaire.
+- **Supprimer une candidature** : clique sur le bouton "Supprimer" dans chaque carte.
+- **Statistiques** : les nombres se mettent à jour à chaque rechargement de la page.
+- **Offres d’emploi** : consulte les offres récupérées via l’API Jooble.
 
-Back-end : PHP, Symfony 6
-Base de données : MySQL
-Front-end : HTML, CSS, JavaScript
-API : Jooble 
+---
+
+### 🛠️ Technologies
+
+- **Back-end** : PHP, Symfony 6
+- **Base de données** : MySQL
+- **Front-end** : HTML, CSS, JavaScript
+- **API** : Jooble
