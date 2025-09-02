@@ -33,32 +33,34 @@
 JOOBLE_API_KEY=ta_cle_api
 
 
-## 5. Authentification
+### 5. Authentification
 - Authentification via email et mot de passe.  
 - Chaque utilisateur ne peut voir et modifier que ses propres candidatures.
 
 ---
 
-## ⚙️ Installation
+### ⚙️ Installation
 
-1. **Cloner le projet**  
+1. **Cloner le projet**
 ```bash
 git clone https://github.com/TRougier/SearchJob.git
 cd SearchJob
 
-Installer les dépendances
+
+**Installer les dépendances
 
 composer install
 
-Creer sa BDD
+**Créer la BDD
 php bin/console doctrine:database:create
 
-Exécuter les migrations
+**Exécuter les migrations
 php bin/console doctrine:migrations:migrate
 
 
-Lancer le serveur :
+**Lancer le serveur :
 symfony server:start
+
 Le projet est accessible à l’adresse : http://127.0.0.1:8000
 
 
