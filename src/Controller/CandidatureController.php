@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class CandidatureController extends AbstractController
 {
@@ -82,6 +84,26 @@ class CandidatureController extends AbstractController
             'candidature' => $candidature,
         ]);
     }
+
+    #[Route('/candidature/{id}/statut', name: 'candidature_update_statut', methods: ['POST'])]
+    public function updateStatut(Request $request, Candidature $candidature, EntityManagerInterface $em): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user || $candidature->getUser() !== $user) {
+            return new JsonResponse(['success' => false, 'message' => 'Accès refusé'], 403);
+        }
+
+        $newStatut = $request->request->get('statut');
+        if (!in_array($newStatut, ['Candidature', 'Relance', 'Entretien'])) {
+            return new JsonResponse(['success' => false, 'message' => 'Statut invalide'], 400);
+        }
+
+        $candidature->setStatut($newStatut);
+        $em->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
 
     #[Route('/candidature/{id}/delete', name: 'candidature_delete')]
     public function delete(Candidature $candidature, EntityManagerInterface $em): Response

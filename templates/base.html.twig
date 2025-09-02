@@ -68,23 +68,26 @@
 </head>
 <body>
     <!-- Navbar -->
-    <div class="navbar">
-        <h1>Mon Application</h1>
-        <span class="menu-toggle"><i class="fas fa-bars"></i></span>
+<div class="navbar">
+    <h1>Ma Gestion d'Alternance</h1>
+
+    <div class="user-links">
+        {% if app.user %}
+            <a href="{{ path('app_logout') }}" style="margin-left: 10px; color: white;">🚪 Déconnexion</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" style="margin-left: 10px; color: white;">🔑 Connexion</a>
+            <a href="{{ path('app_register') }}" style="margin-left: 10px; color: white;">📝 Inscription</a>
+        {% endif %}
     </div>
+
+    <span class="menu-toggle"><i class="fas fa-bars"></i></span>
+</div>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
     <a href="{{ path('app_home') }}">🏠 Menu principal</a>
     <a href="{{ path('app_offres') }}">💼 Offres d'emploi</a>
 
-    {% if app.user %}
-        <p>👤 Bonjour {{ app.user.email }}</p>
-        <a href="{{ path('app_logout') }}">🚪 Déconnexion</a>
-    {% else %}
-        <a href="{{ path('app_login') }}">🔑 Connexion</a>
-        <a href="{{ path('app_register') }}">📝 Inscription</a>
-    {% endif %}
 </div>
 
 

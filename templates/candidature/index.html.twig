@@ -1,11 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<!-- Header avec menu -->
 <header>
-<h1>Mes candidatures</h1>
-    
-   
+    <h1>Mes candidatures</h1>
 </header>
 
 <!-- Bouton Ajouter -->
@@ -18,12 +15,13 @@
 
 <!-- Kanban -->
 <div class="kanban" style="display:flex; gap:20px; justify-content:center; padding:20px;">
+
     <!-- Colonne Candidature -->
     <div class="column" id="col-candidature" style="background-color:#ECF0F1; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
         <h2 style="text-align:center; margin-bottom:15px;">Candidature envoyée</h2>
         {% for candidature in candidatures %}
             {% if candidature.statut == 'Candidature' %}
-                <div class="card" draggable="true" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
+                <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
                     <strong>{{ candidature.nom }}</strong><br>
                     {% if candidature.lien %}
                         <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
@@ -36,18 +34,38 @@
     <!-- Colonne Relance -->
     <div class="column" id="col-relance" style="background-color:#FDEBD0; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
         <h2 style="text-align:center; margin-bottom:15px;">Relance</h2>
+        {% for candidature in candidatures %}
+            {% if candidature.statut == 'Relance' %}
+                <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
+                    <strong>{{ candidature.nom }}</strong><br>
+                    {% if candidature.lien %}
+                        <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <!-- Colonne Entretien -->
     <div class="column" id="col-entretien" style="background-color:#D6EAF8; padding:15px; border-radius:8px; width:300px; min-height:400px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
         <h2 style="text-align:center; margin-bottom:15px;">Entretien</h2>
+        {% for candidature in candidatures %}
+            {% if candidature.statut == 'Entretien' %}
+                <div class="card" draggable="true" data-id="{{ candidature.id }}" style="background:white; padding:10px; margin-bottom:10px; border-radius:5px; box-shadow:0 1px 3px rgba(0,0,0,0.2); cursor:grab;">
+                    <strong>{{ candidature.nom }}</strong><br>
+                    {% if candidature.lien %}
+                        <a href="{{ candidature.lien }}" target="_blank" style="color:#2980B9; text-decoration:none;">Voir l'offre</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
+
 </div>
 
 <!-- Drag & Drop Script -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Drag & Drop
     const cards = document.querySelectorAll('.card');
     const columns = document.querySelectorAll('.column');
     let draggedCard = null;
@@ -67,16 +85,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     columns.forEach(column => {
         column.addEventListener('dragover', e => e.preventDefault());
+
         column.addEventListener('drop', e => {
-            if (draggedCard) column.appendChild(draggedCard);
+            if (!draggedCard) return;
+
+            column.appendChild(draggedCard);
+
+            // Récupère l'ID de la candidature
+            const candidatureId = draggedCard.dataset.id;
+
+            // Détermine le nouveau statut selon la colonne
+            const newStatut = column.id === 'col-candidature' ? 'Candidature'
+                            : column.id === 'col-relance' ? 'Relance'
+                            : 'Entretien';
+
+            // Envoie le nouveau statut au serveur via AJAX
+            fetch(`/candidature/${candidatureId}/statut`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: `statut=${newStatut}`
+            });
         });
     });
-
-    // Dropdown Menu
-    const menu = document.querySelector('nav ul li');
-    const dropdown = menu.querySelector('.dropdown');
-    menu.addEventListener('mouseenter', () => dropdown.style.display = 'block');
-    menu.addEventListener('mouseleave', () => dropdown.style.display = 'none');
 });
 </script>
 {% endblock %}
