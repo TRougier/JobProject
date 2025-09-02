@@ -40,28 +40,22 @@ JOOBLE_API_KEY=ta_cle_api
 
 ---
 
-## 🚀 Installation du projet
+## Installation du projet
 
 Pour installer le projet comme un nouvel utilisateur, suis ces étapes :
 
 1. **Cloner le dépôt**
   git clone https://github.com/TRougier/JobProject.git
+
   cd JobProject
+  
 **Configurer les variables d’environnement**
 -  Renomme le fichier .env.example en .env :
-  Puis édite le fichier .env pour renseigner tes informations locales
+-  Editer le fichier .env pour renseigner tes informations locales
 
-**Installer les dépendances**
   composer install
-
-**Créer la base de données**
   php bin/console doctrine:database:create
-
-**Exécuter les migrations**
-
   php bin/console doctrine:migrations:migrate
-
-**Lancer le serveur Symfony**
   symfony server:start
 
 Le projet sera alors accessible à l’adresse : http://127.0.0.1:8000
