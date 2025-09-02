@@ -53,10 +53,10 @@ Pour installer le projet comme un nouvel utilisateur, suis ces étapes :
 -  Renomme le fichier .env.example en .env :  
 -  Editer le fichier .env pour renseigner tes informations locales  
 
-  composer install  
+  ```composer install  
   php bin/console doctrine:database:create  
   php bin/console doctrine:migrations:migrate  
-  symfony server:start  
+  symfony server:start```
 
 Le projet sera alors accessible à l’adresse : http://127.0.0.1:8000
 
