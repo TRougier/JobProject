@@ -12,7 +12,7 @@ class JobController extends AbstractController
     public function index(): Response
     {
         $url = "https://fr.jooble.org/api/";
-        $key = "c4b34436-3fdb-46cb-8a9e-7c7c42bda2eb"; // ta clé API
+        $key = $_ENV['JOOBLE_API_KEY'];
 
         $postData = json_encode([
             "keywords" => "développeur",
@@ -32,7 +32,7 @@ class JobController extends AbstractController
             $jobs = []; // en cas d'erreur, tableau vide
         } else {
             $jobs = json_decode($response, true)['jobs'] ?? [];
-            $jobs = array_slice($jobs, 0, 1);
+            $jobs = array_slice($jobs, 0, 5);
         }
 
         curl_close($ch);
